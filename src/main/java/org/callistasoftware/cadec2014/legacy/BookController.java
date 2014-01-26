@@ -10,7 +10,7 @@ public class BookController {
 
 	public Book getBook() {
         try {
-            String isbn = showInputDialog("Enter book ISBN");
+            String isbn = getIsbn();
             if (isbn == null) {
                 return NO_BOOK;
             }
@@ -26,4 +26,8 @@ public class BookController {
             return NO_BOOK;
         }
     }
+
+	String getIsbn() {
+		return showInputDialog("Enter book ISBN");
+	}
 }

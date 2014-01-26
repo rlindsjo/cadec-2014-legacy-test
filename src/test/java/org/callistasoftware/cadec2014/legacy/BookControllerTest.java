@@ -16,7 +16,12 @@ public class BookControllerTest {
 
     @Test
     public void cancellingInputReturnsDefaultBook() {
-    	BookController controller = new BookController();
+    	BookController controller = new BookController() {
+    		@Override
+    		String getIsbn() {
+    			return null;
+    		}
+    	};
     	Book foundBook = controller.getBook();
 		assertEquals(BookController.NO_BOOK, foundBook);
     }
