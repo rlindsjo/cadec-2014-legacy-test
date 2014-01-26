@@ -14,9 +14,11 @@ public class BookControllerTest {
     private static final byte[] IMAGE_DATA = new byte[0];
     private static final byte[] JSON = "{}".getBytes();
 
-    @Ignore
     @Test
     public void cancellingInputReturnsDefaultBook() {
+    	BookController controller = new BookController();
+    	Book foundBook = controller.getBook();
+		assertEquals(BookController.NO_BOOK, foundBook);
     }
 
     @Ignore
