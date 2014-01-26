@@ -49,8 +49,12 @@ public class BookControllerTest {
 		when(fetcher.get(ISBN, TESTKEY)).thenReturn(JSON);
 		doThrow(new RuntimeException("JSON Parse error")).when(controller).parse(JSON);
 		
-    	Book foundBook = controller.getBook();
+		ArgumentCaptor<String> message = ArgumentCaptor.forClass(String.class);
+		doNothing().when(controller).showError(message.capture());
+
+		Book foundBook = controller.getBook();
 		assertEquals(BookController.NO_BOOK, foundBook);
+		assertEquals("Could not get book information.\nJSON Parse error", message.getValue());
     }
 
     @Ignore
