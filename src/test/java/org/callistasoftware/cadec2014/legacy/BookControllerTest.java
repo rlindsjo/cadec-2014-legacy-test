@@ -40,9 +40,16 @@ public class BookControllerTest {
 		assertEquals(BookController.NO_BOOK, foundBook);
     }
 
-    @Ignore
     @Test
     public void whenParsingFailsShowError() {
+    	DataFetcher fetcher = mock(DataFetcher.class);
+		BookController controller = spy(new BookController(TESTKEY, fetcher));
+		doReturn(ISBN).when(controller).getIsbn();
+
+		when(fetcher.get(ISBN, TESTKEY)).thenReturn(JSON);
+		
+    	Book foundBook = controller.getBook();
+		assertEquals(BookController.NO_BOOK, foundBook);
     }
 
     @Ignore
