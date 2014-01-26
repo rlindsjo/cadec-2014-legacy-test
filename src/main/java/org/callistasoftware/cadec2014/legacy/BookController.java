@@ -32,10 +32,14 @@ public class BookController {
             return book;
         } catch (Exception e) {
             String message = "Could not get book information.\n" + e.getMessage();
-            showMessageDialog(null, message, "Error", ERROR_MESSAGE);
+            showError(message);
             return NO_BOOK;
         }
     }
+
+	void showError(String message) {
+		showMessageDialog(null, message, "Error", ERROR_MESSAGE);
+	}
 
 	String getIsbn() {
 		return showInputDialog("Enter book ISBN");

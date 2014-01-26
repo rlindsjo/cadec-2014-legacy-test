@@ -33,7 +33,7 @@ public class BookControllerTest {
     	DataFetcher fetcher = mock(DataFetcher.class);
 		BookController controller = spy(new BookController(TESTKEY, fetcher));
 		doReturn(ISBN).when(controller).getIsbn();
-		
+		doNothing().when(controller).showError(anyString());		
 		when(fetcher.get(ISBN, TESTKEY)).thenThrow(new RuntimeException("Error fetching info"));
 		
     	Book foundBook = controller.getBook();
