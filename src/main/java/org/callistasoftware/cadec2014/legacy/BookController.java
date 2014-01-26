@@ -27,7 +27,7 @@ public class BookController {
                 return NO_BOOK;
             }
             byte[] raw = fetcher.get(isbn, key);
-            Book book = Env.getInstance().getJsonParser().parse(raw);
+            Book book = parse(raw);
             book.setThumbnail(fetcher.get(book.getThumbnailUrl()));
             return book;
         } catch (Exception e) {
@@ -36,6 +36,10 @@ public class BookController {
             return NO_BOOK;
         }
     }
+
+	Book parse(byte[] raw) {
+		return Env.getInstance().getJsonParser().parse(raw);
+	}
 
 	void showError(String message) {
 		showMessageDialog(null, message, "Error", ERROR_MESSAGE);
