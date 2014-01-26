@@ -57,8 +57,18 @@ public class BookControllerTest {
 		assertEquals("Could not get book information.\nJSON Parse error", message.getValue());
     }
 
-    @Ignore
     @Test
     public void whenParsingSucceedsReturnBook() {
+    	DataFetcher fetcher = mock(DataFetcher.class);
+		BookController controller = spy(new BookController(TESTKEY, fetcher));
+		doReturn(ISBN).when(controller).getIsbn();
+
+		when(fetcher.get(ISBN, TESTKEY)).thenReturn(JSON);
+		
+		Book book = new Book("title", "thumbnailUrl", "description");
+		doReturn(book).when(controller).parse(JSON);
+
+		Book foundBook = controller.getBook();
+		assertEquals(book, foundBook);
     }
 }
