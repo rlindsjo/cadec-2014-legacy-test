@@ -11,9 +11,11 @@ import org.mockito.ArgumentCaptor;
 
 public class BookControllerTest {
 
-    private static final byte[] IMAGE_DATA = new byte[0];
+    private static final String TESTKEY = "testkey";
+	private static final String ISBN = "isbn";
+	private static final byte[] IMAGE_DATA = new byte[0];
     private static final byte[] JSON = "{}".getBytes();
-
+    
     @Test
     public void cancellingInputReturnsDefaultBook() {
     	BookController controller = new BookController(null, null) {
@@ -28,7 +30,12 @@ public class BookControllerTest {
 
     @Test
     public void whenFetchingFailsShowError() {
-    	BookController controller = new BookController();
+    	DataFetcher fetcher = mock(DataFetcher.class);
+		BookController controller = spy(new BookController(TESTKEY, fetcher));
+		doReturn(ISBN).when(controller).getIsbn();
+		
+		when(fetcher.get(ISBN, TESTKEY)).thenThrow(new RuntimeException("Error fetching info"));
+		
     	Book foundBook = controller.getBook();
 		assertEquals(BookController.NO_BOOK, foundBook);
     }
