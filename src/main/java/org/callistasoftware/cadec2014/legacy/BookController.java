@@ -7,6 +7,18 @@ import org.callistasoftware.cadec2014.legacy.env.Env;
 
 public class BookController {
     static final Book NO_BOOK = new Book("No book found", null, "No book found.");
+	private final String key;
+	private final DataFetcher fetcher;
+
+	public BookController() {
+    	this(Env.getInstance().getProperties().getProperty("api.key"), 
+    			Env.getInstance().getDataFetcher());
+	}
+	
+	BookController(String key, DataFetcher fetcher) {
+		this.key = key;
+		this.fetcher = fetcher;
+	}
 
 	public Book getBook() {
         try {
@@ -14,8 +26,6 @@ public class BookController {
             if (isbn == null) {
                 return NO_BOOK;
             }
-        	String key = Env.getInstance().getProperties().getProperty("api.key");
-        	DataFetcher fetcher = Env.getInstance().getDataFetcher();
             byte[] raw = fetcher.get(isbn, key);
             Book book = Env.getInstance().getJsonParser().parse(raw);
             book.setThumbnail(fetcher.get(book.getThumbnailUrl()));

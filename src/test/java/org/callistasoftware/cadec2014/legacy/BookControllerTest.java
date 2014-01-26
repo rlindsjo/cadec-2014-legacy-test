@@ -16,7 +16,7 @@ public class BookControllerTest {
 
     @Test
     public void cancellingInputReturnsDefaultBook() {
-    	BookController controller = new BookController() {
+    	BookController controller = new BookController(null, null) {
     		@Override
     		String getIsbn() {
     			return null;
@@ -26,9 +26,11 @@ public class BookControllerTest {
 		assertEquals(BookController.NO_BOOK, foundBook);
     }
 
-    @Ignore
     @Test
     public void whenFetchingFailsShowError() {
+    	BookController controller = new BookController();
+    	Book foundBook = controller.getBook();
+		assertEquals(BookController.NO_BOOK, foundBook);
     }
 
     @Ignore
